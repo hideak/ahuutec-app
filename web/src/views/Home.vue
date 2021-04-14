@@ -1,18 +1,86 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <div class="header">
+      <div class="title">Ahuutech App</div>
+      <div class="subtitle">Controle de Vendas</div>
+    </div>
+    <div class="logo">
+      <img src="@/assets/img/app-logo.png" alt="Logo do aplicativo" />
+    </div>
+    <div class="instructions">Selecione uma opção</div>
+    <div class="cards">
+      <Card
+        description="Minhas Vendas"
+        @click="navigateTo({ name: 'Records' })"
+      />
+      <Card
+        description="Meus Produtos"
+        @click="navigateTo({ name: 'Products' })"
+      />
+      <Card
+        description="Relatórios"
+        @click="navigateTo({ name: 'PlaceholderView' })"
+      />
+    </div>
+    <div class="footer">Ahuutec App v1.00 @ 2021</div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import { defineComponent } from "vue";
+import Card from "@/components/Card.vue";
 
 export default defineComponent({
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld,
+    Card,
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@import "@/styles/variables.scss";
+div.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+div.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0 2rem 0;
+}
+
+div.logo img {
+  height: 6rem;
+  margin-bottom: 2rem;
+}
+
+div.title {
+  font-family: $app-font-family-title;
+  font-size: 2.25rem;
+}
+
+div.subtitle {
+  font-family: $app-font-family-subtitle;
+  font-size: 1.5rem;
+}
+
+div.instructions {
+  margin-bottom: 2rem;
+}
+
+div.cards {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.25rem;
+  width: 100%;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  margin-bottom: 2rem;
+}
+</style>

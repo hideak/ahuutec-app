@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
-
 // Vue Configuration File
 module.exports = {
   pwa: {
