@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <div class="header">
-      <div class="title">Ahuutech App</div>
-      <div class="subtitle">Controle de Vendas</div>
+      <div class="title">Ahuutech</div>
+      <div class="subtitle">App de Controle de Vendas</div>
     </div>
     <div class="logo">
       <img src="@/assets/img/app-logo.png" alt="Logo do aplicativo" />
@@ -22,7 +22,7 @@
         @click="navigateTo({ name: 'PlaceholderView' })"
       />
     </div>
-    <div class="footer">Ahuutec App v1.00 @ 2021</div>
+    <div class="footer">Ahuutec App v1.01 @ 2021</div>
   </div>
 </template>
 

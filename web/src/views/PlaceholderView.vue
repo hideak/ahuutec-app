@@ -1,6 +1,7 @@
 <template>
   <div class="placeholder-view">
-    <p>Esta página ainda não foi implementada 😢</p>
+    <p>Esta página ainda não foi implementada</p>
+    <p>🐶</p>
     <p>
       Contate o desenvolvedor do app para dar ideias do que poderia estar nesta
       página 🤙
@@ -10,6 +11,14 @@
         ><Button :label="'Chamar no Whatsapp'"></Button
       ></a>
     </p>
+    <p>🔥 Sugestões 🔥</p>
+    <div>Consulta do estoque atual</div>
+    <div>Consulta do quanto vendeu no mês</div>
+    <div>Consulta do lucro do mês</div>
+    <div>Consulta das margens de cada produto</div>
+    <div>Consulta da velocidade das vendas</div>
+    <div>Uma tela com o resumo de tudo</div>
+    <div>Ranking dos produtos mais lucráveis</div>
   </div>
 </template>
 
