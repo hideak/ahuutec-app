@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.77d04c641f49bf062fb2f389918bdcaa.js"
+  "/precache-manifest.2b09ffeb189c12519e47a353d82ca417.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "ahuutec-app"});
