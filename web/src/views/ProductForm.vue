@@ -17,6 +17,17 @@
       </div>
       <div class="input-group">
         <Label
+          label="Quantidade atual em estoque"
+          :src="require('@/assets/img/layer-group-solid.svg')"
+        />
+        <InputField
+          placeholder="Digite a quantidade em estoque"
+          inputMode="numeric"
+          v-model="stock"
+        />
+      </div>
+      <div class="input-group">
+        <Label
           label="Preço Padrão"
           :src="require('@/assets/img/dollar-sign-solid.svg')"
         />
@@ -86,6 +97,7 @@ export default defineComponent({
   },
   setup(props) {
     const name = ref("");
+    const stock = ref("");
     const defaultPrice = ref("");
     const details = ref("");
     const route = useRoute();
@@ -110,6 +122,9 @@ export default defineComponent({
     const validateData = (): boolean => {
       if (!name.value) {
         window.alert("Digite um nome válido para o produto.");
+        return false;
+      } else if (stock.value !== "" && isNaN(parseInt(stock.value, 10))) {
+        window.alert("Digite uma quantidade válida para o estoque.");
         return false;
       }
       return true;
@@ -143,11 +158,14 @@ export default defineComponent({
      */
     const parseCreateData = (): ProductCreate => {
       const productName = name.value;
+      const productStock =
+        stock.value === "" ? null : parseInt(stock.value, 10);
       const productDefaultPrice = parseDefaultPrice(defaultPrice.value);
       const productDetails = details.value;
 
       return new ProductCreate(
         productName,
+        productStock,
         productDefaultPrice,
         productDetails
       );
@@ -159,12 +177,15 @@ export default defineComponent({
      */
     const parseUpdateData = (): Product => {
       const productName = name.value;
+      const productStock =
+        stock.value === "" ? null : parseInt(stock.value, 10);
       const productDefaultPrice = parseDefaultPrice(defaultPrice.value);
       const productDetails = details.value;
 
       return new Product(
         getProductId(),
         productName,
+        productStock,
         productDefaultPrice,
         productDetails
       );
@@ -237,6 +258,7 @@ export default defineComponent({
       productService.get(productId).then((product: Product) => {
         // updating fields
         name.value = product.name;
+        stock.value = product.stock != null ? product.stock.toString() : "";
         defaultPrice.value = product.defaultPrice
           ? `R$ ${product.defaultPrice.toFixed(2).replace(".", ",")}`
           : "";
@@ -247,6 +269,7 @@ export default defineComponent({
     // expose template variables
     return {
       name,
+      stock,
       defaultPrice,
       details,
       header,

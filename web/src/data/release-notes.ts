@@ -12,5 +12,16 @@ export const releaseNotes: ReleaseItem[] = [
       "Esta é a versão inicial do aplicativo, com funções de registro de vendas "
       + "e produtos de forma simplificada."
     ]
-  }
+  },
+  {
+    version: "1.01",
+    descriptions: [
+      "Agora é possível controlar o estoque dos seus produtos!",
+      "* Insira o estoque atual do seu produto acessando 'Meus Produtos', clicando no produto "
+      + "desejado e inserindo a quantidade em 'Quantidade atual em estoque'",
+      "* Após realizar uma venda, clique em 'Sim, atualize!' para atualizar seu estoque "
+      + "automaticamente.",
+      "* Itens com estoque em branco não são afetados."
+    ]
+  },
 ];

@@ -14,6 +14,7 @@
         <div class="footer">
           <div class="product-inputs">
             <InputField
+              disabled
               textAlignCenter
               placeholder="Nome do produto"
               v-model="product"
@@ -34,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, Ref, ref } from "vue";
 import SortableListItem from "@/model/interface/sortable-list-item.interface";
 import ListItem from "@/components/ListItem.vue";
 import InputField from "@/components/InputField.vue";
@@ -58,6 +59,7 @@ export default defineComponent({
   emits: ["selected"],
   setup(props, context) {
     const newItemIndex = ref(0);
+    const productId: Ref<number | null> = ref(null);
     const product = ref("");
     const price = ref("");
     const isOpened = ref(false);
@@ -67,7 +69,7 @@ export default defineComponent({
      */
     const validateData = (): boolean => {
       if (!product.value) {
-        window.alert("Selecione ou digite um nome para o produto oferecido.");
+        window.alert("Selecione o produto oferecido para venda.");
         return false;
       } else if (!price.value) {
         window.alert("Adicione um preço para o produto oferecido.");
@@ -108,6 +110,7 @@ export default defineComponent({
       // create a new service entry
       const serviceEntry = new ProductEntry(
         newItemIndex.value,
+        productId.value,
         product.value,
         parseFloat(price.value.replace(",", "."))
       );
@@ -123,6 +126,7 @@ export default defineComponent({
      */
     const itemAction = (item: Product): void => {
       product.value = item.name;
+      productId.value = item.id;
       if (item.defaultPrice) {
         price.value = `${item.defaultPrice.toFixed(2)}`;
       } else {

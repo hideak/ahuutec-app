@@ -87,6 +87,18 @@
       :items="products"
       @selected="handleProductSelection"
     />
+    <GenericModal
+      :title="'Atualização de estoque'"
+      :content="
+        'A criação, atualização ou exclusão de vendas causa mudanças no estoque atual. ' +
+        'Deseja atualizar?'
+      "
+      :button1="'Não'"
+      :button2="'Sim, atualize!'"
+      :action1="returnToRecords"
+      :action2="updateStockOnCreate"
+      ref="stockModalOnCreate"
+    />
   </div>
 </template>
 
@@ -99,6 +111,7 @@ import InputField from "@/components/InputField.vue";
 import Label from "@/components/Label.vue";
 import Button from "@/components/Button.vue";
 import ProductSelector from "@/components/ProductSelector.vue";
+import GenericModal from "@/components/GenericModal.vue";
 import ListItem from "@/components/ListItem.vue";
 import Record from "@/model/record.model";
 import RecordCreate from "@/model/dto/record-create";
@@ -117,6 +130,7 @@ export default defineComponent({
     Label,
     Button,
     ProductSelector,
+    GenericModal,
     ListItem,
   },
   props: {
@@ -124,6 +138,7 @@ export default defineComponent({
   },
   setup(props) {
     const productSelector = ref();
+    const stockModalOnCreate = ref();
     const products = ref();
     const productEntries: Ref<ProductEntry[]> = ref([]);
     const date = ref("");
@@ -270,6 +285,13 @@ export default defineComponent({
     };
 
     /**
+     * Returns to the records list
+     */
+    const returnToRecords = (): void => {
+      router.go(-1);
+    };
+
+    /**
      * Handles the save button click and returns to the records list
      */
     const saveAction = (): void => {
@@ -283,7 +305,47 @@ export default defineComponent({
 
       // create data
       recordService.create(newRecord).then(() => {
-        // return to records list
+        // check if the user wants to update stock
+        stockModalOnCreate.value.open();
+      });
+    };
+
+    /**
+     * Updates the stock of products after the creation of a new record
+     */
+    const updateStockOnCreate = (): void => {
+      // create an array of promises that will resolve after all operations
+      const updateOperations: Promise<void>[] = [];
+
+      // evaluate the quantities to be updated
+      const quantitiesToUpdate: { [id: number]: number } = {};
+      productEntries.value.forEach((entry: ProductEntry) => {
+        if (entry.productId) {
+          if (entry.productId in quantitiesToUpdate) {
+            quantitiesToUpdate[entry.productId] += 1;
+          } else {
+            quantitiesToUpdate[entry.productId] = 1;
+          }
+        }
+      });
+
+      // for each product, reduce stock accordingly
+      Object.entries(quantitiesToUpdate).forEach(([key, value]) => {
+        updateOperations.push(
+          productService
+            .get(parseInt(key, 10))
+            .then((product: Product) => {
+              if (product.stock != null) {
+                product.stock -= value;
+                return productService.update(product);
+              }
+            })
+            .then()
+        );
+      });
+
+      // return to records list after finished updating stock
+      Promise.all(updateOperations).then(() => {
         router.go(-1);
       });
     };
@@ -366,6 +428,8 @@ export default defineComponent({
       time,
       details,
       productSelector,
+      stockModalOnCreate,
+      updateStockOnCreate,
       products,
       total,
       handleProductEntryOpen,
@@ -376,6 +440,7 @@ export default defineComponent({
       editAction,
       deleteAction,
       maskTimeField,
+      returnToRecords,
     };
   },
 });

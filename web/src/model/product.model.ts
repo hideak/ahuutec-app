@@ -6,6 +6,7 @@ import SortableListItem from './interface/sortable-list-item.interface';
 export default class Product implements SortableListItem {
   id: number;
   name: string;
+  stock: number | null;
   defaultPrice: number | null;
   details: string;
 
@@ -15,11 +16,13 @@ export default class Product implements SortableListItem {
   constructor(
     id: number,
     name: string,
+    stock: number | null,
     defaultPrice: number | null,
     details: string
   ) {
     this.id = id;
     this.name = name;
+    this.stock = stock;
     this.defaultPrice = defaultPrice;
     this.details = details;
   }
